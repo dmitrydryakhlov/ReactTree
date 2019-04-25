@@ -10,6 +10,12 @@ export default class Node extends React.Component {
         }
     }
 
+    static defaultProps = {
+        name: 'untitled',
+        children: [],
+        level: 0
+    }
+
     indentGenerate = level => {
         let indent = '';
         for (let i = 0; i < level; i++) {
@@ -43,17 +49,18 @@ export default class Node extends React.Component {
     render() {
         return (
             <div>
-                {this.indentGenerate(this.props.level)}{this.props.name}
-                {this.props.root || <button onClick={this.removeNode}>-</button>}
+                {this.indentGenerate(this.props.level)}<span>{this.props.name}</span>
+                {this.props.root || <button onClick={this.removeNode} className='removeButton'>-</button>}
                 <input type="text" onChange={this.onNameChange} value={this.state.name} />
-                <button onClick={this.addNode}>+</button>
-                <button onClick={this.changeNode}>save</button>
+                <button onClick={this.addNode} className='addButton'>+</button>
+                <button onClick={this.changeNode} className='changeButton'>save</button>
                 {
                     this.props.children && this.props.children.map((child, index) => {
                         return <Node
                             name={child.name}
                             children={child.children}
-                            id={child.id} key={index}
+                            id={child.id}
+                            key={index}
                             addNode={this.props.addNode}
                             removeNode={this.props.removeNode}
                             changeNode={this.props.changeNode}
